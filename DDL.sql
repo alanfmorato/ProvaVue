@@ -42,40 +42,22 @@ create table ant_anotacao (
   foreign key ant_usr_fk (ant_usr_id) references usr_usuario(usr_id)
 );
 
-create table ent_entrega (
-  ent_id bigint primary key auto_increment,
-  ent_descricao varchar(100) not null,
-  ent_data_hora_cadastro datetime not null,
-  ent_data_hora_limite datetime not null,
-  ent_peso int not null,
-  ent_observacoes varchar(200)
+create table atv_atividade (
+  atv_id bigint primary key auto_increment,
+  atv_enunciado varchar(100) not null,
+  atv_data_hora_cadastro datetime not null,
+  atv_data_hora_limite datetime not null,
+  atv_peso int,
+  atv_observacoes varchar(200)
 );
 
-create table voc_vocabulo (
- voc_id bigint primary key auto_increment,
- voc_termo varchar(100) not null,
- voc_significado varchar(200) not null,
- voc_versao int not null default 0,
- voc_data_hora_cadastro datetime not null,
- voc_data_hora_desativacao datetime
-);
-
-create table emp_empregado (
-  emp_id bigint primary key auto_increment,
-  emp_nome_completo varchar(100) not null,
-  emp_ctps bigint unique not null,
-  emp_data_hora_cadastro datetime not null,
-  emp_email varchar(30) unique not null,
-  emp_carga_horaria float
-);
-
-create table tmp_temperatura (
-  tmp_id bigint primary key auto_increment,
-  tmp_data_hora datetime not null,
-  tmp_medida float not null,
-  tmp_umidade float,
-  tmp_vento float,
-  tmp_particulas float
+create table dcn_dicionario (
+  dcn_id bigint primary key auto_increment,
+  dcn_verbete varchar(100) not null,
+  dcn_significado varchar(200) not null,
+  dcn_versao int,
+  dcn_data_hora_cadastro datetime not null,
+  dcn_data_hora_revisado datetime
 );
 
 insert into usr_usuario (usr_nome, usr_senha)
@@ -85,16 +67,10 @@ insert into aut_autorizacao (aut_nome)
 insert into uau_usuario_autorizacao (usr_id, aut_id) 
   values (1, 1);
 insert into ant_anotacao(ant_texto, ant_data_hora, ant_usr_id)
-  values ('Meu novo projeto', '2023-08-01 19:10', 1);
-insert into ent_entrega (ent_descricao, ent_data_hora_cadastro, ent_data_hora_limite, ent_peso)
-  values ('Teste 1', current_timestamp(), '2023-10-5 23:59:59', 3),
-         ('Teste 2', current_timestamp(), '2023-10-12 23:59:59', 3);
-insert into voc_vocabulo (voc_termo, voc_significado, voc_versao, voc_data_hora_cadastro)
-  values ('tupla', 'linha de uma tabela', 1, '2023-10-01 10:00:06'),
-  ('tupla', 'conjunto de atributos relacionados', 2, current_timestamp());
-insert into emp_empregado (emp_nome_completo, emp_ctps, emp_data_hora_cadastro, emp_email)
-  values ('Charles Smith', 12345678910, current_timestamp(), 'chsmith@email.com'),
-         ('Ann Doe', 23456743212, current_timestamp(), 'anndoe@email.com');
-insert into tmp_temperatura (tmp_data_hora, tmp_medida, tmp_umidade, tmp_particulas)
-  values ('2023-10-24 10:00', 25.4, null, 31.3),
-         ('2023-10-24 11:00', 26.1, 43.2, null);
+  values('Meu novo projeto', '2023-08-01 19:10', 1);
+insert into atv_atividade (atv_enunciado, atv_data_hora_cadastro, atv_data_hora_limite, atv_observacoes)
+  values ('Teste 1', current_timestamp(), '2023-10-5 23:59:59', 'Entregue arquivo pdf'),
+  ('Teste 2', current_timestamp(), '2023-10-12 23:59:59', 'Apresentar');
+insert into dcn_dicionario (dcn_verbete, dcn_significado, dcn_data_hora_cadastro)
+  values ('tupla', 'linha de uma tabela', '2023-10-01 10:00:06'),
+  ('tupla', 'conjunto de atributos relacionados', current_timestamp());
